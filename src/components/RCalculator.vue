@@ -8,10 +8,9 @@ import { Resistor } from '../types/resistor';
     <body>
         <h1>R Kalkulator</h1>
         <div class="mode-picker">   
-            <input type="radio" id="serial" value=true v-model="series" @click="calculateSum"/>
-            <label for="serial">Seriell</label>
-    
-            <input type="radio" id="parallel" value=false v-model="series" @click="calculateSum"/>
+            <input type="radio" id="series" name="mode" v-model="series" value="true">
+            <label for="series">Seriell</label>
+            <input type="radio" id="parallel" name="mode" v-model="series" value="false">
             <label for="parallel">Parallel</label>
         </div>
         <div class="result">{{ sum }} &#8486;</div>
@@ -24,7 +23,7 @@ import { Resistor } from '../types/resistor';
 export default {
     data() {
         return {
-            series: true,
+            series: "true",
             resistors: [] as Resistor[],
             sum: 0
         }
@@ -35,18 +34,36 @@ export default {
             this.calculateSum();
         },
         calculateSum() {
-            if (this.series) {
+            const choice = JSON.parse(this.series);
+            if (this.resistors.length === 0) {
+                this.sum = 0;
+                return;
+            }
+            if (choice == true) {
+                console.log("series");
                 let series_sum = 0;
                 this.resistors.forEach(resistor => {
                     series_sum += resistor.resistance;
                 });
                 this.sum = series_sum;
-            } else {
+            } else if (choice == false) {
+                console.log("parallel");
                 let parallel_sum = 0;
                 this.resistors.forEach(resistor => {
                     parallel_sum += 1 / resistor.resistance;
+                    console.log(parallel_sum);
                 });
                 this.sum = 1 / parallel_sum;
+            } else {
+                console.error("Invalid choice: " + choice)
+                console.error("Choice must be true or false, not " + typeof choice)
+            }
+        }
+    },
+    watch: {
+        series: {
+            handler() {
+                this.calculateSum();
             }
         }
     }

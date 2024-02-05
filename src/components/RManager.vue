@@ -4,12 +4,12 @@
             <h2>Widerstände Hinzufügen</h2>
             <div class="box">
                 <div class="field">
-                    <label name="name-label" for="name-field">Name:</label>
-                    <input name="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
+                    <label for="name-field">Name:</label>
+                    <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
                 </div>
                 <div class="field">
                     <label for="resistance-field">Wert:</label>
-                    <input name="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
+                    <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
                 </div>
                 <button @click="addResistor">Hinzufügen</button>
             </div>
@@ -38,8 +38,8 @@ const addResistor = () => {
     if (new_resistor.name === "") {
         new_resistor.name = newResistorName();
     }
-    if (new_resistor.resistance < 0) {
-        new_resistor.resistance = 0;
+    if (new_resistor.resistance <= 0) {
+        return;
     }
     emit('add-resistor', new_resistor);
     new_resistor = { name: "", resistance: 0 };
