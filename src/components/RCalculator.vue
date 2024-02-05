@@ -1,13 +1,7 @@
-<script setup lang="ts">
-import RDisplay from './RDisplay.vue';
-import RManager from './RManager.vue';
-import { Resistor } from '../types/resistor';
-</script>
-
 <template>
     <body>
         <h1>R Kalkulator</h1>
-        <div class="mode-picker">   
+        <div class="mode-picker">
             <input type="radio" id="series" name="mode" v-model="series" value="true">
             <label for="series">Seriell</label>
             <input type="radio" id="parallel" name="mode" v-model="series" value="false">
@@ -19,55 +13,47 @@ import { Resistor } from '../types/resistor';
     </body>
 </template>
 
-<script lang="ts">
-export default {
-    data() {
-        return {
-            series: "true",
-            resistors: [] as Resistor[],
-            sum: 0
-        }
-    },
-    methods: {
-        addResistor(new_resistor: Resistor) {
-            this.resistors.push(new_resistor);
-            this.calculateSum();
-        },
-        calculateSum() {
-            const choice = JSON.parse(this.series);
-            if (this.resistors.length === 0) {
-                this.sum = 0;
-                return;
-            }
-            if (choice == true) {
-                console.log("series");
-                let series_sum = 0;
-                this.resistors.forEach(resistor => {
-                    series_sum += resistor.resistance;
-                });
-                this.sum = series_sum;
-            } else if (choice == false) {
-                console.log("parallel");
-                let parallel_sum = 0;
-                this.resistors.forEach(resistor => {
-                    parallel_sum += 1 / resistor.resistance;
-                    console.log(parallel_sum);
-                });
-                this.sum = 1 / parallel_sum;
-            } else {
-                console.error("Invalid choice: " + choice)
-                console.error("Choice must be true or false, not " + typeof choice)
-            }
-        }
-    },
-    watch: {
-        series: {
-            handler() {
-                this.calculateSum();
-            }
-        }
+<script setup lang="ts">
+import RDisplay from './RDisplay.vue';
+import RManager from './RManager.vue';
+import { Resistor } from '../types/resistor';
+
+import { ref, watch } from 'vue';
+
+const resistors = ref([] as Resistor[]);
+const series = ref("true");
+const sum = ref(0);
+
+const addResistor = (new_resistor: Resistor) => {
+    resistors.value.push(new_resistor);
+    calculateSum();
+}
+
+const calculateSum = () => {
+    const choice = JSON.parse(series.value);
+    if (resistors.value.length === 0) {
+        sum.value = 0;
+        return;
+    }
+    
+    if (choice) {
+        let series_sum = 0;
+        resistors.value.forEach(resistor => {
+            series_sum += resistor.resistance;
+        });
+        sum.value = series_sum;
+    } else {
+        let parallel_sum = 0;
+        resistors.value.forEach(resistor => {
+            parallel_sum += 1 / resistor.resistance;
+        });
+        sum.value = 1 / parallel_sum;
     }
 }
+
+watch(series, () => {
+    calculateSum();
+});
 </script>
 
 <style scoped>
