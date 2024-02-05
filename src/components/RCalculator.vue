@@ -14,7 +14,7 @@ import { Resistor } from '../types/resistor';
             <label for="parallel">Parallel</label>
         </div>
         <div class="result">{{ sum }} &#8486;</div>
-        <RManager class="manager" @add-resistor="addResistor" :resistors="resistors"/>
+        <RManager class="manager" @add-resistor-event="addResistor" :resistors="resistors"/>
         <RDisplay :resistors="resistors"/>
     </body>
 </template>

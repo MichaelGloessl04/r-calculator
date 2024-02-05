@@ -1,18 +1,16 @@
 <template>
     <body>
-        <div>
-            <h2>Widerstände Hinzufügen</h2>
-            <div class="box">
-                <div class="field">
-                    <label for="name-field">Name:</label>
-                    <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
-                </div>
-                <div class="field">
-                    <label for="resistance-field">Wert:</label>
-                    <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
-                </div>
-                <button @click="addResistor">Hinzufügen</button>
+        <h2>Widerstände Hinzufügen</h2>
+        <div class="box">
+            <div class="field">
+                <label for="name-field">Name:</label>
+                <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
             </div>
+            <div class="field">
+                <label for="resistance-field">Wert:</label>
+                <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
+            </div>
+            <button @click="createResistor">Hinzufügen</button>
         </div>
     </body>
 </template>
@@ -25,7 +23,7 @@ let new_resistor: Resistor = {
     resistance: 0
 };
 
-const emit = defineEmits(['add-resistor']);
+const emit = defineEmits(['add-resistor-event']);
 
 const props = defineProps({
     resistors: {
@@ -34,14 +32,17 @@ const props = defineProps({
     },
 });
 
-const addResistor = () => {
+const createResistor = () => {
+    if (new_resistor.resistance <= 0) {
+        return;  // TODO: Show error message
+    }
+    if (props.resistors.some(resistor => resistor.name === new_resistor.name)) {
+        return;  // TODO: Show error message
+    }
     if (new_resistor.name === "") {
         new_resistor.name = newResistorName();
     }
-    if (new_resistor.resistance <= 0) {
-        return;
-    }
-    emit('add-resistor', new_resistor);
+    emit('add-resistor-event', new_resistor);
     new_resistor = { name: "", resistance: 0 };
 }
 
