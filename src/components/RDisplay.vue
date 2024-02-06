@@ -61,7 +61,6 @@ const remove_resistor = (index: number) => {
     .delete {
         text-align: center;
         font-size: 16px;
-        cursor: pointer;
         padding: 10px;
         padding-top: 0px;
         padding-bottom: 0px;
