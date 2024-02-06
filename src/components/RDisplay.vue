@@ -1,12 +1,12 @@
 <template>
     <body>
-        <h2>Widerstände</h2>
+        <h2>{{ $t('message.resistors') }}</h2>
         <div class="box">
             <table v-if="resistors.length > 0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Wert</th>
+                        <th>{{ $t('message.name') }}</th>
+                        <th>{{ $t('message.resistance') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,7 +16,7 @@
                     </tr>
                 </tbody>
             </table>
-            <p v-else>Sehr leer hier...</p>
+            <p v-else>{{ $t('message.empty') }}</p>
         </div>
     </body>
 </template>

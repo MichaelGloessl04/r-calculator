@@ -1,16 +1,16 @@
 <template>
     <body>
-        <h2>Widerstände Hinzufügen</h2>
+        <h2>{{ $t('message.add_resistor') }}</h2>
         <div class="box">
             <div class="field">
-                <label for="name-field">Name:</label>
+                <label for="name-field">{{ $t('message.name') }}:</label>
                 <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
             </div>
             <div class="field">
-                <label for="resistance-field">Wert:</label>
+                <label for="resistance-field">{{ $t('message.resistance') }}:</label>
                 <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
             </div>
-            <button @click="createResistor">Hinzufügen</button>
+            <button @click="createResistor">{{ $t('message.add') }}</button>
         </div>
     </body>
 </template>

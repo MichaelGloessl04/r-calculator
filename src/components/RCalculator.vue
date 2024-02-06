@@ -1,11 +1,12 @@
 <template>
     <body>
-        <h1>R Kalkulator</h1>
+        <header><LanguageSelector/></header>
+        <h1>{{ $t('message.title') }}</h1>
         <div class="mode-picker">
             <input type="radio" id="series" name="mode" v-model="series" value="true">
-            <label for="series">Seriell</label>
+            <label for="series">{{ $t('message.serial') }}</label>
             <input type="radio" id="parallel" name="mode" v-model="series" value="false">
-            <label for="parallel">Parallel</label>
+            <label for="parallel">{{ $t('message.parallel') }}</label>
         </div>
         <div class="result">{{ sum }} &#8486;</div>
         <RManager class="manager" @add-resistor-event="addResistor" :resistors="resistors"/>
@@ -16,6 +17,7 @@
 <script setup lang="ts">
 import RDisplay from './RDisplay.vue';
 import RManager from './RManager.vue';
+import LanguageSelector from './LanguageSelector.vue';
 import { Resistor } from '../types/resistor';
 
 import { ref, watch } from 'vue';
@@ -74,5 +76,10 @@ watch(series, () => {
     }
     h1 {
         margin-bottom: 0;
+    }
+    header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 0px;
     }
 </style>
