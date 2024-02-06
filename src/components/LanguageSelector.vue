@@ -8,7 +8,7 @@
 export default {
     data() {
         return {
-            availableLanguages: ['en', 'fr', 'es', 'de']
+            availableLanguages: ['en', 'fr', 'es', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko']
         };
     }
 };
