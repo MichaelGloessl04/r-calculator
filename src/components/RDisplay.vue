@@ -10,10 +10,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="resistor in resistors" :key="resistor.name" @mouseover="hovered = true" @mouseleave="hovered = false">
+                    <tr v-for="(resistor, index) in resistors" :key="resistor.name">
                         <td>{{ resistor.name }}</td>
-                        <td class="resistance">{{ resistor.resistance }} &#8486;
-                            <button class="delete" v-if="hovered">-</button>
+                        <td class="resistance" @mouseover="resistor.hovered = true" @mouseleave="resistor.hovered = false">{{ resistor.resistance }} &#8486;
+                            <button class="delete" v-if="resistor.hovered" @click="remove_resistor(index)">-</button>
                         </td>
                     </tr>
                 </tbody>
@@ -27,26 +27,31 @@
 import { defineProps } from 'vue';
 import { Resistor } from '../types/resistor';
 
-import { ref } from 'vue';
-
-const hovered = ref(false);
-
 defineProps({
     resistors: {
         type: Array as () => Resistor[],
         required: true,
     },
 });
+
+const emit = defineEmits(['remove-resistor-event']);
+
+const remove_resistor = (index: number) => {
+    emit('remove-resistor-event', index);
+}
 </script>
 
 <style scoped>
     .resistance {
         text-align: right;
+        width: 400px;
+        height: 30px;
     }
     table {
         width: 100%;
         border-collapse: collapse;
         margin: auto;
+
     }
     th, td {
         border: 1px solid #dddddd;
@@ -54,14 +59,17 @@ defineProps({
         padding: 8px;
     }
     .delete {
-        color: white;
-        border: none;
-        padding: 5px 10px;
         text-align: center;
-        text-decoration: none;
-        display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
         cursor: pointer;
+        padding: 10px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        vertical-align: middle;
+    }
+    .delete:hover {
+        background-color: #f44336;
+        color: white;
+        border: 1px solid white;
     }
 </style>

@@ -9,8 +9,13 @@
             <label for="parallel">{{ $t('message.parallel') }}</label>
         </div>
         <div class="result">{{ sum }} &#8486;</div>
-        <RManager class="manager" @add-resistor-event="addResistor" :resistors="resistors"/>
-        <RDisplay :resistors="resistors"/>
+        <RManager
+            class="manager"
+            @add-resistor-event="addResistor"
+            :resistors="resistors"/>
+        <RDisplay
+            @remove-resistor-event="removeResistor"
+            :resistors="resistors"/>
     </body>
 </template>
 
@@ -28,6 +33,11 @@ const sum = ref(0);
 
 const addResistor = (new_resistor: Resistor) => {
     resistors.value.push(new_resistor);
+    calculateSum();
+}
+
+const removeResistor = (index: number) => {
+    resistors.value.splice(index, 1);
     calculateSum();
 }
 

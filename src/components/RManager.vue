@@ -3,12 +3,12 @@
         <h2>{{ $t('message.add_resistor') }}</h2>
         <div class="box">
             <div class="field">
-                <label for="name-field">{{ $t('message.name') }}:</label>
-                <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()">
+                <label for="name-field" >{{ $t('message.name') }}:</label>
+                <input id="name-field" type="text" v-model="new_resistor.name" :placeholder="newResistorName()" maxlength="45">
             </div>
             <div class="field">
                 <label for="resistance-field">{{ $t('message.resistance') }}:</label>
-                <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance"> &#8486;
+                <input id="resistance-field" type="number" v-model="new_resistor.resistance" placeholder="Resistance" maxlength="20"> &#8486;
             </div>
             <button @click="createResistor">{{ $t('message.add') }}</button>
         </div>
@@ -20,7 +20,8 @@ import { Resistor } from '../types/resistor';
 
 let new_resistor: Resistor = {
     name: "",
-    resistance: 0
+    resistance: 0,
+    hovered: false,
 };
 
 const emit = defineEmits(['add-resistor-event']);
@@ -43,7 +44,7 @@ const createResistor = () => {
         new_resistor.name = newResistorName();
     }
     emit('add-resistor-event', new_resistor);
-    new_resistor = { name: "", resistance: 0 };
+    new_resistor = { name: "", resistance: 0, hovered: false };
 }
 
 const newResistorName = () => {
