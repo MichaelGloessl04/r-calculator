@@ -10,9 +10,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="resistor in resistors" :key="resistor.name">
+                    <tr v-for="resistor in resistors" :key="resistor.name" @mouseover="hovered = true" @mouseleave="hovered = false">
                         <td>{{ resistor.name }}</td>
-                        <td class="resistance">{{ resistor.resistance }} &#8486;</td>
+                        <td class="resistance">{{ resistor.resistance }} &#8486;
+                            <button class="delete" v-if="hovered">-</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -24,6 +26,10 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { Resistor } from '../types/resistor';
+
+import { ref } from 'vue';
+
+const hovered = ref(false);
 
 defineProps({
     resistors: {
@@ -46,5 +52,16 @@ defineProps({
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
+    }
+    .delete {
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
     }
 </style>
